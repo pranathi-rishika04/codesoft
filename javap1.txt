@@ -1,0 +1,62 @@
+import java.util.Random;
+import java.util.Scanner;
+public class Numberguess{
+    static final int max_attempts=5;
+    static final int min_num=1;
+    static final int max_num=100;
+    
+    public static void main(String[] args){
+        Scanner scanner=new Scanner(System.in);
+        Random random=new Random();
+        int tot_rounds=0;
+        int rounds_won=0;
+        boolean playAgain;
+        do{
+            int target_num=random.nextInt(max_num-min_num+1)+min_num;
+            int attempts_left=max_attempts;
+            boolean haswon=false;
+            System.out.println("\nI have selected a number between " + min_num + " and " + max_num + ".");
+            System.out.println("You have still " +max_attempts+ " to guess");
+            while(attempts_left>0){
+                System.out.print("Enter your guess");
+                int guess;
+                
+                try{
+                    guess=Integer.parseInt(scanner.nextLine());
+                }
+                catch(NumberFormatException e){
+                    System.out.println("Invalid,Enter a valid number");
+                    continue;
+                }
+                attempts_left--;
+                if(guess==target_num){
+                    System.out.println("You guesseed the correct number");
+                    haswon=true;
+                    rounds_won++;
+                    break;
+                }
+                else if(guess<target_num){
+                    System.out.println("Too low");
+                }
+                else{
+                    System.out.println("Too high");
+                }
+                if(attempts_left>0){
+                    System.out.println("You have" +attempts_left+"attempts(s) left");
+                }
+            }
+            if(!haswon){
+                System.out.println("You have no attempts.The number is:" +target_num);
+            }
+            tot_rounds++;
+            System.out.print("\n Do you want to play again?(yes/no):");
+            String response=scanner.nextLine().toLowerCase();
+            playAgain=response.equals("yes")||response.equals("y");
+            
+        }while(playAgain);
+        System.out.println("\n Game Over..");
+        System.out.println("Total rounds played:" +tot_rounds);
+        System.out.println("Number of rounds won:" +rounds_won);
+       scanner.close();
+    }
+}
